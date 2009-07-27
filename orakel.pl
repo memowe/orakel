@@ -69,7 +69,7 @@ sub said {
 
         # Befehle nur für Channel
         else {
-            when ( /^\?(html|css) (\w+) (\S+)$/ and exists ${ $cd->{$3} } ) {
+            when ( /^\?(html|css) (\w+) (\S+)$/ and exists $cd->{$3} ) {
                 return "$2: " . ( $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found} );
             }
             default { return }
