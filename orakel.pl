@@ -34,24 +34,53 @@ my $google_calc = WWW::Google::Calculator->new();
 # Lesen und schreiben
 sub said {
     my ( $orakel, $said ) = @_;
-    my $cd = $orakel->channel_data( $CONFIG->{irc}{channel} );
+    my $cd = $orakel->channel_data( $CONFIG->{irc}{channel} ); # Wer ist Op?
 
-    if ( $cd->{ $said->{who} }{op} ) { # Ein Mitarbeiter!
+    # Mitarbeiter-Befehle
+    if ( $cd->{ $said->{who} }{op} ) {
 
+        # Befehle für Channel und Query
         given ( $said->{body} ) {
-            when ( /^\?(html|css) (.*)/ ) {
+            when ( /^\?(html|css) (\w+)$/ ) { # HTML- und CSS-Glossar
                 return $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found};
             }
-            when ( /^\?gc (.*)/ ) {
+            when ( /^\?gc (.*)/ ) { # Google-Rechner
                 return $google_calc->calc( $1 );
+            }
+            when ( /^\?/ ) { return }
+            default { return }
+        }
+
+        # Befehle nur für Query
+        if ( $said->{channel} eq 'msg' ) {
+
+            given ( $said->{body} ) {
+                when ( /^\?regeln$/ ) { # Regeln-Komplettanzeige
+                    my $reply = "Alle Regeln:\n";
+                    for my $i ( 0 .. $#{ $CONFIG->{regeln} } ) {
+                        $reply .= "#$i: " . $CONFIG->{regeln}[$i] . "\n";
+                    }
+                    return $reply;
+                }
+                default { return }
+            }
+
+        }
+
+        # Befehle nur für Channel
+        else {
+            when ( /^\?(html|css) (\w+) (\S+)$/ and exists ${ $cd->{$3} } ) {
+                return "$2: " . ( $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found} );
             }
             default { return }
         }
 
     }
-    else { # Kein Mitarbeiter!
+    # Befehle für andere
+    else {
 
-        if ( $said->{channel} eq 'msg' ) { # Nur im Query
+        # Befehle nur für Query
+        if ( $said->{channel} eq 'msg' ) {
             given ( $said->{body} ) {
                 when ( /^\?(html|css) (.*)/ ) {
                     return $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found};
@@ -59,8 +88,10 @@ sub said {
                 default { return }
             }
         }
+
+        # Befehle nur für Channel
         else {
-            return;
+            return; # keine!
         }
 
     }
