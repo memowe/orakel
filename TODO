@@ -1,11 +1,10 @@
 MUSS
-    - Q-Anmeldung mit Passwort per Kommandozeile (sicher is sicher!)
 
 SOLL
     - Seitencheck: W3C-Validator HTML, CSS; Pagerank
-    - Wissender
     - Google-Suchlink und Google-Lucky
 
 KANN
+    - Wissender
     - Karma-Verwaltung
     - Kick- und Bannverwaltung (wozu soll Orakel das können? Nur Ops können Orakel bedienen)
