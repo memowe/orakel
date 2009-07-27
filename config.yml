@@ -17,6 +17,12 @@ texte:
         - Keine Ahnung, was Du von mir willst.
         - Sowas ham wa nich.
         - Was will dieser Mensch von mir? Kann er weggehen?
+    google_search_fail:
+        - Google Fail.
+    google_no_results:
+        - Da GBit/s nix zu.
+        - Keine Suchergebnisse.
+        - Ich hab alles versucht, aber nichts gefunden. :-(
 
 regeln:
     - Du sollst verstaendlich schreiben und beim Thema bleiben.
