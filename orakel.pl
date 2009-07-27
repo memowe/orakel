@@ -48,6 +48,9 @@ sub said {
             when ( /^\?gc (.*)/ ) { # Google-Rechner
                 return $google_calc->calc( $1 );
             }
+            when ( /^\?regel (\d{1,2})$/ ) {
+                return $CONFIG->{regeln}[ $1+1 ] // rand_of $CONFIG->{texte}{not_found};
+            }
         }
 
         # Befehle nur für Query
@@ -69,8 +72,20 @@ sub said {
         else {
             given ( $said->{body} ) {
                 when ( /^\?(html|css) (\w+) (\S+)\s*$/ ) {
-                    return "$3: " . ( $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found} )
-                        if exists $cd->{$3};
+                    if ( exists $cd->{$3} and exists $CONFIG->{$1}{$2} ) {
+                        return "$3: " . $CONFIG->{$1}{$2};
+                    }
+                    else {
+                        return rand_of $CONFIG->{texte}{not_found};
+                    }
+                }
+                when ( /^\?regel (\d{1,2}) (\S+)\s*$/ ) {
+                    if ( exists $cd->{$2} and exists $CONFIG->{regeln}[ $1+1 ] ) {
+                        return "$2: " . $CONFIG->{regeln}[ $1+1 ];
+                    }
+                    else {
+                        return rand_of $CONFIG->{texte}{not_found};
+                    }
                 }
             }
         }
