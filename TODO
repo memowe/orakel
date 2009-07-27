@@ -1,9 +1,10 @@
 MUSS
-
-SOLL
     - Seitencheck: W3C-Validator HTML, CSS; Pagerank
 
 KANN
     - Wissender
     - Karma-Verwaltung
-    - Kick- und Bannverwaltung (wozu soll Orakel das können? Nur Ops können Orakel bedienen)
+    - Factoid (spaetestens dafuer brauchen wir eine kleine SQLite-DB)
+
+WIRD NICHT
+    - Kick- und Bann-Verwaltung. Alle, die Orakel gescheit bedienen, sind Ops
