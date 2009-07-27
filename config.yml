@@ -1,24 +1,35 @@
-text:
+irc:
+    server:     irc.quakenet.org
+    port:       6667
+    channel:    '#html.de.selbsthilfe'
+    username:   Orakel
+    name:       Orakel
+    encoding:   'iso-8859-1'
+
+texte:
     kick:
-        - Vielen Dank. Sie haben ein einfaches Orakel sehr glÃ¼cklich gemacht.
-        - Da ist die TÃ¼r.
+        - Vielen Dank. Sie haben ein einfaches Orakel sehr glücklich gemacht.
+        - Da ist die Tür.
         - All your base are belong to us.
         - Wir sind Borg. Sie werden assimiliert werden.
+    not_found:
+        - Hä?
+        - Keine Ahnung, was Du von mir willst.
+        - Sowas ham wa nich.
 
 regeln:
-    - Du sollst verstÃ¤ndlich schreiben und beim Thema bleiben.
+    - Du sollst verständlich schreiben und beim Thema bleiben.
     - Du sollst recherchieren.
     - Du sollst zur Sache kommen.
-    - Du sollst Fragen Ã¶ffentlich stellen.
-    - Du sollst Deinen NÃ¤chsten den gebotenen Respekt zollen.
-    - Du sollst Dich einmal Ã¤uÃŸern und die Ã„uÃŸerung nicht wiederholen.
-    - Du sollst Dich einmal Ã¤uÃŸern und die Ã„uÃŸerung nicht wiederholen.
+    - Du sollst Fragen öffentlich stellen.
+    - Du sollst Deinen Nächsten den gebotenen Respekt zollen.
+    - Du sollst Dich einmal äußern und die Äußerung nicht wiederholen.
+    - Du sollst Dich einmal äußern und die Äußerung nicht wiederholen.
     - Du sollst nicht Away-Skripten nutzen.
     - Du sollst Code-Beispiele kurz halten.
-    - Du sollst Dich in Sprache Ã¼ben. Farben, Fettsatz, wilde Smiley-Haufen sind unnÃ¶tig.
+    - Du sollst Dich in Sprache üben. Farben, Fettsatz, wilde Smiley-Haufen sind unnötig.
     - "Du sollst #html.de nichtkommerziell halten."
     - Du sollst zu Dir stehen. Eine Zurechtweisung von einem Operator hat einen Grund.
-
 
 html:
     a: "anchor - http://www.w3.org/TR/html4/struct/links.html#edef-A"

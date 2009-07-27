@@ -1,8 +1,10 @@
 MUSS
-    - HTML- und CSS-Glossar
+    - Kick- und Bann-Maschinerie
+    - Regeln-Auflistung
+    - Q-Anmeldung mit Passwort per Kommandozeile (sicher is sicher!)
 
+SOLL
+    - Seitencheck: W3C-Validator HTML, CSS; Pagerank
 
-WÄR SCHÖN
-
-
-VIELLEICHT
+KANN
+    - Karma-Verwaltung
