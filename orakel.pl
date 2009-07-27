@@ -34,6 +34,7 @@ my $google_calc = WWW::Google::Calculator->new();
 # Lesen und schreiben
 sub said {
     my ( $orakel, $said ) = @_;
+    return unless $said->{body} =~ /^\?/;
     my $cd = $orakel->channel_data( $CONFIG->{irc}{channel} ); # Wer ist Op?
 
     # Mitarbeiter-Befehle
@@ -47,8 +48,6 @@ sub said {
             when ( /^\?gc (.*)/ ) { # Google-Rechner
                 return $google_calc->calc( $1 );
             }
-            when ( /^\?/ ) { return }
-            default { return }
         }
 
         # Befehle nur für Query
@@ -58,21 +57,22 @@ sub said {
                 when ( /^\?regeln$/ ) { # Regeln-Komplettanzeige
                     my $reply = "Alle Regeln:\n";
                     for my $i ( 0 .. $#{ $CONFIG->{regeln} } ) {
-                        $reply .= "#$i: " . $CONFIG->{regeln}[$i] . "\n";
+                        $reply .= ' #' . $i+1 . ': ' . $CONFIG->{regeln}[$i] . "\n";
                     }
                     return $reply;
                 }
-                default { return }
             }
 
         }
 
         # Befehle nur für Channel
         else {
-            when ( /^\?(html|css) (\w+) (\S+)$/ and exists $cd->{$3} ) {
-                return "$2: " . ( $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found} );
+            given ( $said->{body} ) {
+                when ( /^\?(html|css) (\w+) (\S+)\s*$/ ) {
+                    return "$3: " . ( $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found} )
+                        if exists $cd->{$3};
+                }
             }
-            default { return }
         }
 
     }
@@ -82,10 +82,9 @@ sub said {
         # Befehle nur für Query
         if ( $said->{channel} eq 'msg' ) {
             given ( $said->{body} ) {
-                when ( /^\?(html|css) (.*)/ ) {
+                when ( /^\?(html|css) (\w+)$/ ) { # HTML- und CSS-Glossar
                     return $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found};
                 }
-                default { return }
             }
         }
 
@@ -95,6 +94,8 @@ sub said {
         }
 
     }
+
+    return; # Sag nichts, wenn Du nicht gemeint bist.
 }
 
 # Los geht's!
