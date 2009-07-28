@@ -17,6 +17,7 @@ use Config::Any;
 use WWW::Google::Calculator;
 use REST::Google::Search;
 use URI::Escape;
+use HTML::Strip;
 
 # rand_of wählt aus einer Liste bzw. einer Hashref zufällig ein Element aus
 sub rand_of {
@@ -38,8 +39,9 @@ my $CONFIG = Config::Any->load_files({
     flatten_to_hash => 1,
 })->{$config_file_name};
 
-# Google-Rechner
-my $google_calc = WWW::Google::Calculator->new();
+# Objekte, die man mal braucht
+my $google_calc     = WWW::Google::Calculator->new();
+my $html_cleaner    = HTML::Strip->new();
 
 # Lesen und schreiben
 sub said {
@@ -80,7 +82,10 @@ sub said {
                 if ( @results ) {
                     my $counter = 0;
                     foreach my $r ( @results ) { $counter++;
-                        $reply .= " #$counter: " . $r->title . ' (' . $r->url . ")\n";
+                        $reply .=   " #$counter: "
+                                    . $html_cleaner->parse( $r->title )
+                                    . ' (' . $r->url . ")\n";
+                        $html_cleaner->eof;
                         last if $counter == 3;
                     }
                 }
@@ -180,4 +185,101 @@ Orakel->new(
     # Kein Nickname vorgegeben!
 )->run();
 
-__END__
+=head1 BEDIENUNG
+
+    $ perl orakel.pl
+
+=head1 BESCHREIBUNG
+
+Orakel ist ein IRC-Bot für den Quakenet-Channel #html.de. Er dient vor allem
+der Informierung, Belustigung und Erholung. Die meisten Befehle sind nur den
+Channel-Operatoren zugänglich, aber auch für Normalsterbliche gibt es was.
+
+=head1 BEFEHLSREFERENZ
+
+=head2 Befehle für Channel-Operatoren
+
+=over 4
+
+=item C<?html foo> (in #html.de und im Query)
+
+gibt mehr Informationen zum HTML4-Element B<foo>.
+
+=item C<?html foo bar> (nur in #html.de)
+
+gibt dem Channelbenutzer B<bar> mehr Informationen zum HTML4-Element B<foo>.
+
+=item C<?css foo> (in #html.de und im Query)
+
+gibt mehr Informationen zur CSS2-Eigenschaft B<foo>.
+
+=item C<?css foo bar> (nur in #html.de)
+
+gibt dem Channelbenutzer B<bar> mehr Informationen zur CSS2-Eigenschaft
+B<foo>.
+
+=item C<?regeln> (nur im Query)
+
+listet alle Regeln von #html.de auf. Dieser Befehl dient zur Information
+vor der Benutzung eines der unteren:
+
+=item C<?regel 7> (in #html.de und im Query)
+
+gibt die Regel Nr. B<7> aus.
+
+=item C<?regel 7 foo> (nur in #html.de)
+
+sagt dem Channelbenutzer B<foo> die Regel Nr. B<7> auf.
+
+=item C<?google foo bar baz> (in #html.de und im Query)
+
+führt eine Google-Suche zu den Suchbegriffen B<foo bar baz> durch und gibt
+die besten drei Treffer aus.
+
+=item C<?gc 42+17> (in #html.de und im Query)
+
+liefert das Ergebnis des Google-Rechners zu B<42+17>.
+Für geeignetes B<42+17>.
+
+=back
+
+=head2 Befehle für Normalsterbliche
+
+=over 4
+
+=item C<?html foo> (nur im Query)
+
+gibt mehr Informationen zum HTML4-Element B<foo>.
+
+=item C<?css foo> (nur im Query)
+
+gibt mehr Informationen zur CSS2-Eigenschaft B<foo>.
+
+=back
+
+=head1 TECHNISCHES UND ABHÄNGIGKEITEN
+
+Orakel wurde in Perl geschrieben und hat die folgenden Abhängigkeiten:
+
+=over 4
+
+=item perl 5.10
+
+=item Bot::BasicBot
+
+=item Config::Any
+
+=item YAML
+
+=item WWW::Google::Calculator
+
+=item REST::Google::Search
+
+=item URI::Escape
+
+=back
+
+=head1 AUTOR UND DANK
+
+B<Mirko "memowe" Westermeier (mail@memowe.de)> hat den Bot geschrieben und
+ist für Beschwerden und Anregungen der richtige Empfänger.
