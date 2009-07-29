@@ -7,6 +7,8 @@ use Config::Any;
 use REST::Google::Search;
 use WWW::Google::Calculator;
 use WWW::Google::PageRank;
+use WebService::Validator::HTML::W3C;
+use WebService::Validator::CSS::W3C;
 use URI::Escape;
 use HTML::Strip;
 
@@ -16,6 +18,7 @@ our @EXPORT_OK = qw(
     $CONFIG
     glossar regel regeln
     google gcalc pagerank
+    validate_html validate_css
 );
 
 # Konfiguration holen!
@@ -38,8 +41,11 @@ sub rand_of {
     }
 }
 
+# Diese Kerle brauche ich gleich noch.
 our $google_calc    = WWW::Google::Calculator->new;
 our $pageranker     = WWW::Google::PageRank->new;
+our $html_validator = WebService::Validator::HTML::W3C->new;
+our $css_validator  = WebService::Validator::CSS::W3C->new;
 our $html_cleaner   = HTML::Strip->new;
 
 # HTML- und CSS-Glossar
@@ -101,11 +107,54 @@ sub pagerank {
     my ( $url ) = @_;
     if ( $url =~ m{^(http://|www\.)} ) { # sieht wie ein URL aus
         $url = "http://$url" if $1 eq 'www.';
-        return scalar $pageranker->get( $url ); # nur den PR
+        return 'Pagerank: ' . scalar $pageranker->get( $url ); # nur den PR
     }
     else {
         return $CONFIG->{texte}{not_found};
     }
 }
+
+# HTML-Validator
+sub validate_html {
+    my ( $url ) = @_;
+    return rand_of $CONFIG->{texte}{not_found}
+        unless $url =~ m{^(http://|www\.)};
+    $url = "http://$url" if $1 eq 'www.';
+    return $html_validator->validator_errors
+        unless $html_validator->validate( $url );
+
+    if ( $html_validator->is_valid ) {
+        return "$url " . rand_of $CONFIG->{texte}{html_validator_valid};
+    }
+    else {
+        return "$url " 
+            . rand_of( $CONFIG->{texte}{html_validator_invalid} ) . ' '
+            .   $html_validator->num_errors . ' '
+            . rand_of $CONFIG->{texte}{validator_errors};
+    }
+}
+
+# CSS-Validator
+sub validate_css {
+    my ( $url ) = @_;
+    return rand_of $CONFIG->{texte}{not_found}
+        unless $url =~ m{^(http://|www\.)};
+    $url = "http://$url" if $1 eq 'www.';
+    return rand_of $CONFIG->{texte}{css_validator_fail}
+        unless $css_validator->validate( uri => $url );
+
+    if ( $css_validator->is_valid ) {
+        return "$url " . rand_of $CONFIG->{texte}{css_validator_valid};
+    }
+    else {
+        return "$url " 
+            . rand_of( $CONFIG->{texte}{css_validator_invalid} ) . ' '
+            .   $css_validator->errorcount . ' '
+            . rand_of $CONFIG->{texte}{validator_errors};
+    }
+}
+
+# Danke, liebe Autoren der beiden Validatoren für APIs, die ein bisschen,
+# aber eben nicht ganz unterschiedlich sind.
 
 __END__

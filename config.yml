@@ -23,6 +23,18 @@ texte:
         - Da GBit/s nix zu.
         - Keine Suchergebnisse.
         - Ich hab alles versucht, aber nichts gefunden. :-(
+    html_validator_valid:
+        - hat valides HTML.
+    html_validator_invalid:
+        - hat invalides HTML.
+    css_validator_valid:
+        - hat valides CSS.
+    css_validator_invalid:
+        - hat invalides CSS.
+    css_validator_fail:
+        - "CSS-Validator Fail."
+    validator_errors:
+        - Fehler
 
 regeln:
     - Du sollst verstaendlich schreiben und beim Thema bleiben.

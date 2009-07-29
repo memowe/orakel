@@ -12,6 +12,7 @@ use Orakel::Util qw(
     $CONFIG
     glossar regel regeln
     google gcalc pagerank
+    validate_html validate_css
 );
 
 # Lesen und schreiben
@@ -30,6 +31,14 @@ sub said {
             when ( /^\?google (.*)/ )       { return google( $1 ) }
             when ( /^\?gcalc (.*)/ )        { return gcalc( $1 ) }
             when ( /^\?pagerank (\S+)/ )    { return pagerank( $1 ) }
+            when ( /^\?valid html (\S+)/ )  { return validate_html( $1 ) }
+            when ( /^\?valid css (\S+)/ )   { return validate_css( $1 ) }
+            when ( /^\?check (\S+)/ ) {
+                return join "\n" =>
+                    validate_html( $1 ),
+                    validate_css( $1 ),
+                    pagerank( $1 );
+            }
         }
 
         # Befehle nur für Query

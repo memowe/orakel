@@ -49,8 +49,18 @@ BEFEHLSREFERENZ
         liefert das Ergebnis des Google-Rechners zu 42+17. Für geeignetes
         42+17.
 
-    "?pagerank http://www.memowe.de/?" (in #html.de und im Query)
+    "?pagerank http://www.memowe.de/" (in #html.de und im Query)
         liefert den Google-Pagerank von www.memowe.de.
+
+    "?valid html http://www.memowe.de/" (in #html.de und im Query)
+        überprüft www.memowe.de auf valides HTML.
+
+    "?valid css http://www.memowe.de/" (in #html.de und im Query)
+        überprüft www.memowe.de auf valides CSS.
+
+    "?check http://www.memowe.de/" (in #html.de und im Query)
+        führt einen kompletten Check von www.memowe.de durch.
+        HTML-Validator, CSS-Validator und Pagerank.
 
   Befehle für Normalsterbliche
 
@@ -71,7 +81,10 @@ TECHNISCHES UND ABHÄNGIGKEITEN
     REST::Google::Search
     WWW::Google::Calculator
     WWW::Google::PageRank
+    WebService::Validator::HTML::W3C
+    WebService::Validator::CSS::W3C
     URI::Escape
+    HTML::Strip
 
 AUTOR
 

@@ -58,9 +58,22 @@ die besten drei Treffer aus.
 liefert das Ergebnis des Google-Rechners zu B<42+17>.
 Für geeignetes B<42+17>.
 
-=item C<?pagerank http://www.memowe.de/?> (in #html.de und im Query)
+=item C<?pagerank http://www.memowe.de/> (in #html.de und im Query)
 
 liefert den Google-Pagerank von B<www.memowe.de>.
+
+=item C<?valid html http://www.memowe.de/> (in #html.de und im Query)
+
+überprüft B<www.memowe.de> auf valides HTML.
+
+=item C<?valid css http://www.memowe.de/> (in #html.de und im Query)
+
+überprüft B<www.memowe.de> auf valides CSS.
+
+=item C<?check http://www.memowe.de/> (in #html.de und im Query)
+
+führt einen kompletten Check von B<www.memowe.de> durch. HTML-Validator,
+CSS-Validator und Pagerank.
 
 =back
 
@@ -98,7 +111,13 @@ Orakel wurde in Perl geschrieben und hat die folgenden Abhängigkeiten:
 
 =item WWW::Google::PageRank
 
+=item WebService::Validator::HTML::W3C
+
+=item WebService::Validator::CSS::W3C
+
 =item URI::Escape
+
+=item HTML::Strip
 
 =back
 
