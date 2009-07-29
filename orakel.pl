@@ -14,8 +14,9 @@ use strict;
 use warnings;
 use feature qw( switch );
 use Config::Any;
-use WWW::Google::Calculator;
 use REST::Google::Search;
+use WWW::Google::Calculator;
+use WWW::Google::PageRank;
 use URI::Escape;
 use HTML::Strip;
 
@@ -40,8 +41,9 @@ my $CONFIG = Config::Any->load_files({
 })->{$config_file_name};
 
 # Objekte, die man mal braucht
-my $google_calc     = WWW::Google::Calculator->new();
-my $html_cleaner    = HTML::Strip->new();
+my $google_calc     = WWW::Google::Calculator->new;
+my $pageranker      = WWW::Google::PageRank->new;
+my $html_cleaner    = HTML::Strip->new;
 
 # Lesen und schreiben
 sub said {
@@ -58,11 +60,6 @@ sub said {
             # HTML- und CSS-Glossar
             when ( /^\?(html|css) (\w+)$/ ) {
                 return $CONFIG->{$1}{$2} // rand_of $CONFIG->{texte}{not_found};
-            }
-
-            # Google-Rechner
-            when ( /^\?gc (.*)/ ) {
-                return $google_calc->calc( $1 );
             }
 
             # Regel anzeigen
@@ -94,6 +91,23 @@ sub said {
                 }
 
                 return $reply;
+            }
+
+            # Google-Rechner
+            when ( /^\?calc (.*)/ ) {
+                return $google_calc->calc( $1 );
+            }
+
+            # Google-Pagerank
+            when ( /^\?pagerank (\S+)/ ) {
+                my $url = $1;
+                if ( $url =~ m{^(http://|www\.)} { # sieht wie ein URL aus
+                    $url = "http://$url" if $1 eq 'www.';
+                    return scalar $pageranker->get( $url ); # nur den PR
+                }
+                else {
+                    return;
+                }
             }
 
         }
@@ -236,10 +250,14 @@ sagt dem Channelbenutzer B<foo> die Regel Nr. B<7> auf.
 führt eine Google-Suche zu den Suchbegriffen B<foo bar baz> durch und gibt
 die besten drei Treffer aus.
 
-=item C<?gc 42+17> (in #html.de und im Query)
+=item C<?calc 42+17> (in #html.de und im Query)
 
 liefert das Ergebnis des Google-Rechners zu B<42+17>.
 Für geeignetes B<42+17>.
+
+=item C<?pagerank http://www.memowe.de/?> (in #html.de und im Query)
+
+liefert den Google-Pagerank von B<www.memowe.de>.
 
 =back
 
@@ -271,9 +289,11 @@ Orakel wurde in Perl geschrieben und hat die folgenden Abhängigkeiten:
 
 =item YAML
 
+=item REST::Google::Search
+
 =item WWW::Google::Calculator
 
-=item REST::Google::Search
+=item WWW::Google::PageRank
 
 =item URI::Escape
 
