@@ -102,7 +102,7 @@ Orakel wurde in Perl geschrieben und hat die folgenden Abhängigkeiten:
 
 =back
 
-=head1 AUTOR UND DANK
+=head1 AUTOR
 
 B<Mirko "memowe" Westermeier (mail@memowe.de)> hat den Bot geschrieben und
 ist für Beschwerden und Anregungen der richtige Empfänger.

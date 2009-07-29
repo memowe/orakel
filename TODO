@@ -5,6 +5,7 @@ KANN
     - Wissender
     - Karma-Verwaltung
     - Factoid (spaetestens dafuer brauchen wir eine kleine SQLite-DB)
+    - Test-Suite
 
 WIRD NICHT
     - Kick- und Bann-Verwaltung. Alle, die Orakel gescheit bedienen, sind Ops
