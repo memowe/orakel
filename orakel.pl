@@ -19,7 +19,7 @@ use REST::Google::Search;
 use URI::Escape;
 use HTML::Strip;
 
-# rand_of wählt aus einer Liste bzw. einer Hashref zufällig ein Element aus
+# rand_of wählt aus einer Liste bzw. einer Arrayref zufällig ein Element aus
 sub rand_of {
     my ( $first ) = @_;
     if ( ref $first eq 'ARRAY' ) {
