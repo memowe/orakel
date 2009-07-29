@@ -45,9 +45,12 @@ BEFEHLSREFERENZ
         führt eine Google-Suche zu den Suchbegriffen foo bar baz durch und
         gibt die besten drei Treffer aus.
 
-    "?gc 42+17" (in #html.de und im Query)
+    "?gcalc 42+17" (in #html.de und im Query)
         liefert das Ergebnis des Google-Rechners zu 42+17. Für geeignetes
         42+17.
+
+    "?pagerank http://www.memowe.de/?" (in #html.de und im Query)
+        liefert den Google-Pagerank von www.memowe.de.
 
   Befehle für Normalsterbliche
 
@@ -65,8 +68,9 @@ TECHNISCHES UND ABHÄNGIGKEITEN
     Bot::BasicBot
     Config::Any
     YAML
-    WWW::Google::Calculator
     REST::Google::Search
+    WWW::Google::Calculator
+    WWW::Google::PageRank
     URI::Escape
 
 AUTOR UND DANK
