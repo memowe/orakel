@@ -1,7 +1,7 @@
 irc:
     server:     irc.quakenet.org
     port:       6667
-    channel:    '#html.de.selbsthilfe'
+    channel:    '#html.de'
     username:   Orakel
     name:       Orakel
     encoding:   'iso-8859-1'
