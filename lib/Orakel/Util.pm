@@ -57,7 +57,7 @@ sub glossar {
 # Bestimmte Regel anzeigen
 sub regel {
     my ( $nr ) = @_;
-    return $CONFIG->{regeln}[ $nr + 1 ] // rand_of $CONFIG->{texte}{not_found};
+    return $CONFIG->{regeln}[ $nr - 1 ] // rand_of $CONFIG->{texte}{not_found};
 }
 
 # Alle Regeln anzeigen
